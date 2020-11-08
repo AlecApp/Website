@@ -230,7 +230,7 @@ def describeCluster():
             if "EKS-Demo" in cluster["cluster"]["tags"]["Group"]:
                 data_object = {
                     "name": cluster["cluster"]["name"],
-                    "createdAt": str(cluster["cluster"]["createdAt"])
+                    "createdAt": cluster["cluster"]["createdAt"]
                 }
                 data.append(data_object)
         except:  
