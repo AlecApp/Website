@@ -1,3 +1,6 @@
+#This script queries and filters active instances in my cloud to find the instance hosting my website.
+#It then returns selected information about that instance.
+
 import boto3   
 import json
 
