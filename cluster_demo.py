@@ -1,3 +1,7 @@
+#This script creates a new EKS cluster (and associated resources) with a unique name.
+#It then waits for 30 minutes before deleting the created cluster.
+#This script also includes a function to retrieve data about created clusters.
+
 import boto3
 import fileinput
 import json
