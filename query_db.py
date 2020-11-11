@@ -1,7 +1,9 @@
-#This script uses code from the AWS tutorial on Python and DynamoDB interactions
-#found here: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.html
+#This script queries a DynamoDB database and returns information from its table.
+
+#This script uses code from the AWS tutorial on Python and DynamoDB interactions found here:
+#https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.html
 #The code has been slightly tweaked and commented to show that I understand it.
-#The "Movies" database used was created using code from that tutorial. (I haven't included it here for that reason.)
+#The "Movies" database I use was created using code from that tutorial. (I haven't included that code here for that reason.)
 
 import boto3
 from boto3.dynamodb.conditions import Key
