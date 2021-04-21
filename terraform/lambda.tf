@@ -1,7 +1,7 @@
 # Format Python code with the correct user, password, and database name to connect to the RDS cluster
 resource "null_resource" "setup_db" {
   provisioner "local-exec" {
-    command = "sed -e s/MASTER_USER/${aws_ssm_parameter.master_username.value}/g -e s/MASTER_PASSWORD/${aws_ssm_parameter.master_password.value}/g -e s/MASTER_USER/${aws_rds_cluster.db.database_name}/g ../setup_db/setup_db.py > ../setup_db/setup_db.py"
+    command = "sed -e s/MASTER_USER/${aws_ssm_parameter.master_username.value}/g -e s/MASTER_PASSWORD/${aws_ssm_parameter.master_password.value}/g -e s/MASTER_USER/${aws_rds_cluster.db.database_name}/g ../setup_db/setup_db.py.template > ../setup_db/setup_db.py"
   }
 }
 
