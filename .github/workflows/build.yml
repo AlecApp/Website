@@ -16,7 +16,6 @@ jobs:
       - name: Install AWS CLI
         run: pip install awscli --upgrade
 
-      # Demonstrating how to use environment variables in GitHub Actions.
       - name: Extract Branch Name
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
 
@@ -49,12 +48,11 @@ jobs:
       - name: Terraform apply (Default)
         id: apply
         if: github.event_name == 'workflow_dispatch'
-        run: terraform apply -no-color -auto-approve -var="my_cidr=${secrets.MY_CIDR}"
-        continue-on-error: true
+        run: terraform apply -no-color -auto-approve
+        continue-on-error: false
       
       # Demonstrating how GitHub Secrets can be used to store access keys for an AWS IAM user.
       - name: Get Caller Identity
-        continue-on-error: true
         run: aws sts get-caller-identity
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEV_GH_ACCESS_KEY }}
