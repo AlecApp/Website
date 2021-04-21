@@ -1,0 +1,29 @@
+# Note that this is not intended to be a full workflow, just a demonstration of coding structure & knowledge.
+# In reality, this workflow would be a terrible idea because the .tfstate is being stored locally on an ephemeral GitHub Runner.
+# This means that the state file will be deleted when the workflow finishes, preventing us from properly destroying the state without first "discovering" the existing resources.
+
+# In an actual production environment, this workflow would have more jobs, more steps, and it would be storing the .tfstate in Terraform Cloud.
+
+name: Create AWS Infrastructure
+on:
+  workflow_dispatch:
+jobs:
+  create:
+    name: Create AWS Infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: Checkout Master Branch
+        uses: actions/checkout@master
+      
+      - name: Get Caller Identity
+        continue-on-error: false
+        run: python db_setup/test.py
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_GH_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_GH_SECRET_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
