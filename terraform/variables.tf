@@ -26,8 +26,8 @@ variable "env" {
 
 variable "use_latest_snapshot" {
   type        = bool
-  default     = false
-  description = "Build the database from the latest snapshot?"
+  default     = true
+  description = "Use the latest snapshot for DB recovery? (As opposed to a specific snapshot)"
 }
 
 # Value stored in Terraform Cloud
