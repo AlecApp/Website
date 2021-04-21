@@ -30,6 +30,12 @@ variable "use_latest_snapshot" {
   description = "Use the latest snapshot for DB recovery? (As opposed to a specific snapshot)"
 }
 
+variable "initial_startup" {
+  type        = bool
+  default     = true
+  description = "Skip certain things (e.g. checking for an existing snapshot) if this is the initial run."
+}
+
 # Value stored in Terraform Cloud
 variable "cidr_alec" {
   type        = string

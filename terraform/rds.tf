@@ -35,6 +35,7 @@ resource "aws_ssm_parameter" "master_password" {
 
 # Snapshot of Database
 data "aws_db_cluster_snapshot" "snapshot" {
+  count = var.initial_startup ? 0 : 1
   # If we want to use the latest snapshot of our db, we use the following 2 lines:
   db_cluster_identifier = var.use_latest_snapshot ? "aurora-db-postgres-${var.env}" : null
   most_recent           = var.use_latest_snapshot ? true : false
@@ -58,7 +59,7 @@ resource "aws_rds_cluster" "db" {
   apply_immediately       = true
   database_name           = "demo"
   backup_retention_period = 1
-  snapshot_identifier     = data.aws_db_cluster_snapshot.snapshot.id
+  snapshot_identifier     = var.initial_startup ? null : data.aws_db_cluster_snapshot.snapshot.id
   enable_http_endpoint    = true
 
   scaling_configuration {
