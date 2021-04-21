@@ -4,7 +4,7 @@
 
 # In an actual production environment, this workflow would have more jobs, more steps, and it would be storing the .tfstate in Terraform Cloud.
 
-name: Create AWS Infrastructure
+name: Test
 on:
   workflow_dispatch:
 jobs:
