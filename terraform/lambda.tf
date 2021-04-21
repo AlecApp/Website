@@ -3,6 +3,9 @@ resource "null_resource" "setup_db" {
   provisioner "local-exec" {
     command = "sed -i -e 's/MASTER_USER/${aws_ssm_parameter.master_username.value}/g' -e 's/MASTER_PASSWORD/${aws_ssm_parameter.master_password.value}/g' -e 's/MASTER_USER/${aws_rds_cluster.db.database_name}/g' ../setup_db/setup_db.py"
   }
+  provisioner "local-exec" {
+      command = "cat ../setup_db/setup_db.py"
+  }
 }
 
 module "lambda_function" {
