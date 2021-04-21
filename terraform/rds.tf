@@ -59,7 +59,7 @@ resource "aws_rds_cluster" "db" {
   apply_immediately       = true
   database_name           = "demo"
   backup_retention_period = 1
-  snapshot_identifier     = var.initial_startup ? null : data.aws_db_cluster_snapshot.snapshot.id
+  snapshot_identifier     = var.initial_startup ? null : data.aws_db_cluster_snapshot.snapshot[0].id
   enable_http_endpoint    = true
 
   scaling_configuration {
