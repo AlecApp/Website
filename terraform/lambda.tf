@@ -23,7 +23,7 @@ module "lambda_function" {
 
   # Function must be in the same VPC as the RDS Cluster and have inbound/outbound access to the database port.
   lambda_role            = aws_iam_role.lambda_role.arn
-  vpc_subnet_ids         = module.vpc.private_subnet_group
+  vpc_subnet_ids         = module.vpc.private_subnets
   vpc_security_group_ids = [aws_security_group.allow_postgres.id]
 
   source_path = "../setup_db"
