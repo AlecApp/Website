@@ -1,3 +1,7 @@
+data "aws_iam_policy" "lambda_policy" {
+  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
 resource "aws_iam_role" "lambda_role" {
   name = "lambda-setup-db"
   assume_role_policy = <<EOF
@@ -18,4 +22,9 @@ EOF
     environment = var.env
     terraform = true
   }
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_attach" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = data.aws_iam_policy.lambda_policy.arn
 }
