@@ -6,10 +6,10 @@ resource "null_resource" "setup_db" {
     command = "sed -i -e 's/MASTER_USER/${aws_ssm_parameter.master_username.value}/g' -e 's/MASTER_PASSWORD/${aws_ssm_parameter.master_password.value}/g' -e 's/DATABASE_NAME/${aws_rds_cluster.db.database_name}/g' -e 's/DB_HOST/${aws_rds_cluster.db.endpoint}/g' -e 's/DB_PORT/${aws_rds_cluster.db.port}/g' ../setup_db/setup_db.py"
   }
   provisioner "local-exec" {
-      command = "cat ../setup_db/setup_db.py"
+    command = "cat ../setup_db/setup_db.py"
   }
   provisioner "local-exec" {
-      command = "git clone https://github.com/jkehler/awslambda-psycopg2.git && cp -r awslambda-psycopg2/psycopg2-3.8 ../setup_db/psycopg2"
+    command = "git clone https://github.com/jkehler/awslambda-psycopg2.git && cp -r awslambda-psycopg2/psycopg2-3.8 ../setup_db/psycopg2"
   }
 }
 
@@ -20,7 +20,11 @@ module "lambda_function" {
   description   = "Create initial database values"
   handler       = "setup_db.lambda_handler"
   runtime       = "python3.8"
-  lambda_role = aws_iam_role.lambda_role.arn
+
+  # Function must be in the same VPC as the RDS Cluster and have inbound/outbound access to the database port.
+  lambda_role            = aws_iam_role.lambda_role.arn
+  vpc_subnet_ids         = module.vpc.private_subnet_group
+  vpc_security_group_ids = [aws_security_group.allow_postgres.id]
 
   source_path = "../setup_db"
 

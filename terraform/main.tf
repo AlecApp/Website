@@ -27,3 +27,21 @@ resource "aws_security_group" "allow_postgres" {
   description = "Allow Postgres inbound traffic"
   vpc_id      = module.vpc.vpc_id
 }
+
+resource "aws_security_group_rule" "bastion-db" {
+  type              = "ingress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  security_group_id = aws_security_group.allow_postgres.id
+  self              = true
+}
+
+resource "aws_security_group_rule" "bastion-db" {
+  type              = "egress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  security_group_id = aws_security_group.allow_postgres.id
+  self              = true
+}

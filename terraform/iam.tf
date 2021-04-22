@@ -3,7 +3,7 @@ data "aws_iam_policy" "lambda_policy" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda-setup-db"
+  name               = "lambda-setup-db"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -20,7 +20,7 @@ resource "aws_iam_role" "lambda_role" {
 EOF
   tags = {
     environment = var.env
-    terraform = true
+    terraform   = true
   }
 }
 
