@@ -26,6 +26,7 @@ module "lambda_function" {
   lambda_role            = aws_iam_role.lambda_role.arn
   vpc_subnet_ids         = module.vpc.private_subnets
   vpc_security_group_ids = [aws_security_group.allow_postgres.id]
+  timeout                = 10
 
   source_path = "../setup_db"
 
