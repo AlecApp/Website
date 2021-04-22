@@ -45,7 +45,7 @@ module "bastion" {
 }
 
 # Allow Postgres traffic to the database from the bastion host
-resource "aws_security_group_rule" "bastion-db" {
+resource "aws_security_group_rule" "bastion_db" {
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432

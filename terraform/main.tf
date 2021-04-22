@@ -28,7 +28,7 @@ resource "aws_security_group" "allow_postgres" {
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group_rule" "bastion-db" {
+resource "aws_security_group_rule" "postgres_in" {
   type              = "ingress"
   from_port         = 5432
   to_port           = 5432
@@ -37,7 +37,7 @@ resource "aws_security_group_rule" "bastion-db" {
   self              = true
 }
 
-resource "aws_security_group_rule" "bastion-db" {
+resource "aws_security_group_rule" "postgres_out" {
   type              = "egress"
   from_port         = 5432
   to_port           = 5432
