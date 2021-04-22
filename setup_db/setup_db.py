@@ -7,7 +7,8 @@ def load_data(movies):
         connection = psycopg2.connect(
             user = "MASTER_USER",
             password = "MASTER_PASSWORD",
-            port = "5432",
+            host = "DB_HOST",
+            port = "DB_PORT",
             database = "DATABASE_NAME"
         )
 
@@ -34,7 +35,7 @@ def load_data(movies):
             print("PostgreSQL connection is now closed")
 
 
-def lambda_handler():
+def lambda_handler(event, context):
     with open("moviedata.json") as json_file:
         movie_list = json.load(json_file, parse_float=Decimal)
     load_data(movie_list)
