@@ -1,4 +1,5 @@
 from decimal import Decimal
+from psycopg2 import sql
 import json
 import psycopg2
 
@@ -13,11 +14,11 @@ def load_data(movies):
         )
 
         cursor = connection.cursor()
-        cursor.execute("CREATE TABLE movies")
-        for movie in movies:
-            pg_insert = """INSERT INTO movies (title, year, description) VALUES (%s,%d,%s)"""
-            inserted_values = (movie['title'], int(movie['year']), movie['info']['plot'])
-            cursor.execute(pg_insert, inserted_values)
+        cursor.execute(sql.SQL("CREATE TABLE movies"))
+      #  for movie in movies:
+    #        pg_insert = """INSERT INTO movies (title, year, description) VALUES (%s,%d,%s)"""
+     #       inserted_values = (movie['title'], int(movie['year']), movie['info']['plot'])
+    #        cursor.execute(pg_insert, inserted_values)
 
         connection.commit()
         count = cursor.rowcount
