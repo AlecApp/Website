@@ -36,7 +36,7 @@ module "website_instance" {
   version                       = ">= 0.30.4"
   instance_type                 = "t2.micro"
   vpc_id                        = module.vpc.vpc_id
-  ssh_key_pair                  = module.website_key_pair.this_key_pair_key_name
+  ssh_key_pair                  = module.website_key_pair.key_pair_key_name
   security_groups               = [aws_security_group.website.id]
   create_default_security_group = false
   subnet                        = module.vpc.public_subnets[0]
