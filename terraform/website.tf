@@ -44,7 +44,7 @@ module "website_instance" {
   subnet                        = module.vpc.public_subnets[0]
   associate_public_ip_address   = true
   name                          = "website-${var.env}"
-  user_data                     = "user_data.yml"
+  user_data                     = "../user_data.yml"
   tags = {
     environment = var.env
     terraform   = true
