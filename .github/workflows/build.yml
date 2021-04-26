@@ -26,4 +26,4 @@ jobs:
         with:
           push: true
           context: .
-          tags: alecapp/website:latest
+          tags: ghcr.io/website:latest
