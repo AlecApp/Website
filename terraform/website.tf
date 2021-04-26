@@ -32,7 +32,7 @@ resource "aws_ssm_parameter" "website_private_key" {
 }
 
 data "template_file" "user_data" {
-  template = file("../user_data.yaml")
+  template = file("../user_data.yml")
 }
 
 module "website_instance" {
