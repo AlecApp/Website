@@ -23,4 +23,4 @@ jobs:
         with:
           push: true
           context: .
-          tags: AlecApp/Website:latest
+          tags: website:latest
