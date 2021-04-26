@@ -46,7 +46,7 @@ resource "aws_security_group_rule" "postgres_out" {
   self              = true
 }
 
-# Security group to allow HTTP/HTTPS traffic to website instance
+# Security group to allow HTTP/HTTPS/SSH traffic to website instance
 resource "aws_security_group" "website" {
   name        = "website"
   description = "Allow HTTP/HTTPS inbound traffic"
@@ -59,7 +59,6 @@ resource "aws_security_group_rule" "http_in" {
   to_port           = 80
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
-  self              = true
 }
 
 resource "aws_security_group_rule" "http_out" {
@@ -68,7 +67,6 @@ resource "aws_security_group_rule" "http_out" {
   to_port           = 80
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
-  self              = true
 }
 
 resource "aws_security_group_rule" "https_in" {
@@ -77,7 +75,6 @@ resource "aws_security_group_rule" "https_in" {
   to_port           = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
-  self              = true
 }
 
 resource "aws_security_group_rule" "https_out" {
@@ -86,5 +83,22 @@ resource "aws_security_group_rule" "https_out" {
   to_port           = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
-  self              = true
+}
+
+resource "aws_security_group_rule" "ssh_in" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.website.id
+  cidr_blocks       = [var.cidr_alec]
+}
+
+resource "aws_security_group_rule" "ssh_out" {
+  type              = "egress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.website.id
+  cidr_blocks       = [var.cidr_alec]
 }
