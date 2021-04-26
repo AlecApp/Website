@@ -40,6 +40,7 @@ module "website_instance" {
   security_groups               = [aws_security_group.website.id]
   create_default_security_group = false
   subnet                        = module.vpc.public_subnets[0]
+  associate_public_ip_address   = true
   name                          = "website"
   user_data                     = "../user_data.yml"
   tags = {
