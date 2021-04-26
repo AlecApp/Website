@@ -1,10 +1,11 @@
 
 data "aws_ami" "amazon_linux_2" {
-  owners = ["amazon"]
+  most_recent = true
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2.0.20210326.0-x86_64-gp2"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 }
 
@@ -34,6 +35,7 @@ module "website_instance" {
   source                        = "cloudposse/ec2-instance/aws"
   version                       = ">= 0.30.4"
   instance_type                 = "t2.micro"
+  ami                           = data.aws_ami.amazon_linux_2.image_id
   vpc_id                        = module.vpc.vpc_id
   ssh_key_pair                  = module.website_key_pair.key_pair_key_name
   security_groups               = [aws_security_group.website.id]
