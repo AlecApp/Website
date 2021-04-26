@@ -21,7 +21,7 @@ module "vpc" {
   }
 }
 
-# Security group to allow Postgres traffic in VPC
+# Security group to allow Postgres traffic between RDS, Lambda, and Bastion Host
 resource "aws_security_group" "allow_postgres" {
   name        = "allow_postgres"
   description = "Allow Postgres inbound traffic"
@@ -43,5 +43,48 @@ resource "aws_security_group_rule" "postgres_out" {
   to_port           = 5432
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_postgres.id
+  self              = true
+}
+
+# Security group to allow HTTP/HTTPS traffic to website instance
+resource "aws_security_group" "website" {
+  name        = "website"
+  description = "Allow HTTP/HTTPS inbound traffic"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "http_in" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.website.id
+  self              = true
+}
+
+resource "aws_security_group_rule" "http_out" {
+  type              = "egress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.website.id
+  self              = true
+}
+
+resource "aws_security_group_rule" "https_in" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.website.id
+  self              = true
+}
+
+resource "aws_security_group_rule" "https_out" {
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.website.id
   self              = true
 }
