@@ -36,6 +36,7 @@ module "website_instance" {
   version                       = ">= 0.30.4"
   instance_type                 = "t2.micro"
   ami                           = data.aws_ami.amazon_linux_2.image_id
+  owners                        = ["amazon"]
   vpc_id                        = module.vpc.vpc_id
   ssh_key_pair                  = module.website_key_pair.key_pair_key_name
   security_groups               = [aws_security_group.website.id]
