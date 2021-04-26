@@ -31,6 +31,10 @@ resource "aws_ssm_parameter" "website_private_key" {
   }
 }
 
+data "template_file" "user_data" {
+  template = file("../user_data.yaml")
+}
+
 module "website_instance" {
   source                        = "cloudposse/ec2-instance/aws"
   version                       = ">= 0.30.4"
@@ -44,7 +48,7 @@ module "website_instance" {
   subnet                        = module.vpc.public_subnets[0]
   associate_public_ip_address   = true
   name                          = "website-${var.env}"
-  user_data                     = "../user_data2.sh"
+  user_data                     = data.template_file.user_data.rendered
   tags = {
     environment = var.env
     terraform   = true
