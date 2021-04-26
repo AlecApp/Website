@@ -5,7 +5,7 @@ data "aws_ami" "amazon_linux_2" {
 
   filter {
     name   = "name"
-    values = ["Amazon Linux 2 AMI (HVM), SSD Volume Type (64-bit x86)"]
+    values = ["amzn2-ami-hvm*"]
   }
 
   filter {
