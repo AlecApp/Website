@@ -59,6 +59,7 @@ resource "aws_security_group_rule" "http_in" {
   to_port           = 80
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "http_out" {
@@ -67,6 +68,7 @@ resource "aws_security_group_rule" "http_out" {
   to_port           = 80
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "https_in" {
@@ -75,6 +77,7 @@ resource "aws_security_group_rule" "https_in" {
   to_port           = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "https_out" {
@@ -83,6 +86,7 @@ resource "aws_security_group_rule" "https_out" {
   to_port           = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "ssh_in" {
