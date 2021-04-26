@@ -1,11 +1,11 @@
 
 data "aws_ami" "amazon_linux_2" {
   most_recent = true
-  owners      = ["Amazon Web Services"]
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["Amazon Linux 2"]
+    values = ["Amazon Linux 2 AMI (HVM), SSD Volume Type (64-bit x86)"]
   }
 
   filter {
