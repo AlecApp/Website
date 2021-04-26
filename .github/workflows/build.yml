@@ -1,60 +1,26 @@
-# Note that this is not intended to be a full workflow, just a demonstration of coding structure & knowledge.
-# In reality, this workflow would be a terrible idea because the .tfstate is being stored locally on an ephemeral GitHub Runner.
-# This means that the state file will be deleted when the workflow finishes, preventing us from properly destroying the state without first "discovering" the existing resources.
-
-# In an actual production environment, this workflow would have more jobs, more steps, and it would be storing the .tfstate in Terraform Cloud.
-
-name: Create AWS Infrastructure
+name: Build & Deploy Image
 on:
   workflow_dispatch:
 jobs:
-  create:
-    name: Create AWS Infrastructure
+  build:
+    name: Build Image
     runs-on: ubuntu-latest
     steps:
-    
-      - name: Install AWS CLI
-        run: pip install awscli --upgrade
-
-      - name: Extract Branch Name
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
-
-      - name: Print Branch Name
-        run: echo 'The branch name is' ${{ env.BRANCH_NAME }}
 
       - name: Checkout Master Branch
         uses: actions/checkout@master
-                  
-      - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v1
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          terraform_version: 0.15.0
-          cli_config_credentials_token: ${{ secrets.TFC_TOKEN }}
-          terraform_wrapper: false
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
       
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: Terraform init
-        id: init
-        run: terraform init
-
-      - name: Terraform validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform apply (Default)
-        id: apply
-        if: github.event_name == 'workflow_dispatch'
-        run: terraform apply -no-color -auto-approve
-        continue-on-error: false
-      
-      # Demonstrating how GitHub Secrets can be used to store access keys for an AWS IAM user.
-      - name: Get Caller Identity
-        run: aws sts get-caller-identity
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEV_GH_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEV_GH_SECRET_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: .
+          tags: ${{ github.repository_owner }}/${{ github.repository_name }}:latest
