@@ -1,5 +1,9 @@
-data "aws_iam_policy" "lambda_policy" {
+data "aws_iam_policy" "lambda_policy_vpc" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+data "aws_iam_policy" "lambda_policy_rds" {
+  arn = "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -24,7 +28,12 @@ EOF
   }
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_attach" {
+resource "aws_iam_role_policy_attachment" "lambda_attach_vpc" {
   role       = aws_iam_role.lambda_role.name
-  policy_arn = data.aws_iam_policy.lambda_policy.arn
+  policy_arn = data.aws_iam_policy.lambda_policy_vpc.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_attach_rds" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = data.aws_iam_policy.lambda_policy_rds.arn
 }

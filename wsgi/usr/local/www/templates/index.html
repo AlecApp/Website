@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>Alec Applegate - Cloud Projects</title>
+        <link rel="stylesheet" type="text/css" href="static/styles/mystyle.css">
+	</head>
+	<body style="background-color: #ebfff5">
+		<h1>This website is a showcase for my AWS projects.</h1>
+		<h4>
+        This website is running on a single t2.micro EC2 instance in my own AWS cloud.
+        The server is a LAMP server hosting a Flask (Python) application. I built the image myself based on AWS Linux 2.
+        <br>
+        I chose Flask over Node.js because I wanted to demonstrate knowledge of Python.
+        Below, I've included some live examples to showcase knowledge of AWS, Python, and tech in general.
+        <br>
+        <br>
+        <u>The source code for each function is linked at the bottom of that function's description.</u>
+        <br>
+        <br>
+        Please keep in mind that this website is a WIP. Launched 10/29/20. Almost everything demonstrated here (Python, JavaScript, etc.) is self-taught.
+        <br>
+        <br>
+        Thanks for checking it out.
+        <br>
+        <br>
+        -- Alec --
+        <br>   
+        </h4>
+        <br>
+        <!-- Old Code
+		<script type="text/javascript">
+			function runTest(){
+			fetch('/test')
+				.then(response => response.json())
+                .then(data => {
+                    console.log(data[0]["title"]);
+				})
+                .catch(console.error);
+			}
+		</script>
+        -->
+        <script type="text/javascript">
+            var can_launch_cluster_demo = true;
+            
+            function togglePopup(id){
+                popup = document.getElementById(id);
+                popup.classList.toggle("show");
+            }
+            function getInstanceInfo(){
+                $.ajax({
+                    url: '/instanceinfo',
+                    type: 'get',
+                    success: function(data){
+                        data = JSON.parse(data);
+                        console.log(data);
+                        resultsString = "<b><u>RESULTS --Click to close--</u></b>"
+                        + "<br>Image: " + data["ImageId"] 
+                        + "<br>Instance Type: " + data["InstanceType"]
+                        + "<br>Public DNS: " + data["PublicDnsName"]
+                        + "<br>Public IP: " + data["PublicIpAddress"]
+                        + "<br>State: " + data["State"]["Name"]
+                        + "<br>Architecture: " + data["Architecture"];
+                        document.getElementById("results_getinstanceinfo").innerHTML = resultsString;
+                        togglePopup("results_getinstanceinfo");
+                    }
+                });
+            }
+            function launchCluster(){
+                $.ajax({
+                    url: '/launchcluster',
+                    type: 'get'
+                });
+                
+                if (can_launch_cluster_demo){
+                    resultsString = "<b><u>--Click to close--</u></b><br>The cluster is being created.<br>This process may take up to 30 minutes to complete.<br>You can click 'Check Cluster Status' to see its current status.";
+                }
+                else {
+                    resultsString = "<b><u>--Click to close--</u></b><br>You have already launched a cluster.<br>You can check the status of that cluster by clicking 'Check Cluster Status'.";
+                }
+                document.getElementById("results_launch").innerHTML = resultsString;
+                togglePopup("results_launch");
+                can_launch_cluster_demo = false;
+            }
+            function checkCluster(){
+                $.ajax({
+                    url: '/checkcluster',
+                    type: 'get',
+                    success: function(data){
+                        data = JSON.parse(data);
+                        console.log(data);
+                        resultsString = "<b><u>RESULTS --Click to close--</u></b>";
+                        if (data.length == 0){
+                            resultsString += "<br>There are currently no live clusters.";
+                        }
+                        else{
+                        
+                            for (var i=0; i<data.length; i++){
+                                resultsString += "<br>Name: " + data[i]["name"];
+                                resultsString += "<br>Created At: " + data[i]["createdAt"].substring(0, 19);
+                                resultsString += "<br>Status: " + data[i]["status"];
+                                resultsString += "<br><hr>";
+                            }
+                        }
+                        document.getElementById("results_check").innerHTML = resultsString;
+                        togglePopup("results_check");
+                    }
+                });
+            }
+		</script>
+        <script type="text/javascript">
+            function getMovies (){
+                $.ajax({
+                    url: '/movies',
+                    type: 'post',
+                    data: $('#year').serialize(),
+                    success: function(data){
+                        data = JSON.parse(data);
+                        console.log(data[0]);
+                        r = Math.floor(Math.random() * Object.keys(data).length);
+                        resultsString = "<b><u>RESULTS: --Click to close--</u></b><br>TITLE: " + data[r]["title"] + "<br>RELEASED: " + data[r]["info"]["release_date"].slice(0, 10);
+                        document.getElementById("results_movies").innerHTML = resultsString;
+                        togglePopup("results_movies");
+                    }
+                });
+            }
+		</script>
+        <h2><b><u>LIVE EXAMPLES</u></b></h2>
+        <div id="form_getinstanceinfo" style="background-color: #ffffff">
+            <hr>
+            <label><u><b>Get Instance Information:</b></u></label>
+            <br>
+            <br>
+            <button onclick="getInstanceInfo()">Get Info</button>
+            <div class="popup" onclick="togglePopup('results_getinstanceinfo')">
+                <span class="popuptext" id="results_getinstanceinfo">Popup text...</span>
+            </div>
+            <br>
+            <i>
+            This function uses the boto3 API to query current settings for the instance hosting this webpage.
+            <br>
+            The query is filtered by tags (to exclude other instances) and the results are selectively represented.
+            <br>
+            This function does not return CloudWatch metrics (CPU usage, etc.) That will be a separate function.
+            </i>
+            <br>
+            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/describe_instance.py">GitHub</a>
+            <hr>
+        </div>
+        <br>
+        <div id="search_form" style="background-color: #ffffff">
+            <hr>
+            <label><b><u>Find Movies By Year:</u></b></label>
+            <br>
+            <br>
+            <input type="text" id ="year" name="year" value="1985">
+            <button onclick="getMovies()">Get Movies</button>
+            <div class="popup" onclick="togglePopup('results_movies')">
+                <span class="popuptext" id="results_movies">Popup text...</span>
+            </div>
+            <br>
+            <i>
+            This function takes an input variable (a year between 1920 - 2017) and queries a DynamoDB table built with
+            data pulled from IMDB.
+            <br>
+            Uses the boto3 API. Data is returned as a JSON string, which JavaScript parses and
+            sanitizes before presenting it.
+            <br>
+            The displayed movie is chosen at random from the query results for the input year.
+            (This makes it useful for playing Charades!)
+            </i>
+            <br>
+            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/query_db.py">GitHub</a>
+            <hr>
+        </div>
+        <br>
+        <div id="cluster_form" style="background-color: #ffffff">
+            <hr>
+            <label><b><u>Create Kubernetes Cluster on EKS:</u></b></label>
+            <br>
+            <br>
+            <button onclick="launchCluster()">Create EKS Cluster</button>
+            <button onclick="checkCluster()">Check Cluster Status</button>
+            <div class="popup" onclick="togglePopup('results_launch')">
+                <span class="popuptext" id="results_launch">Popup text...</span>
+            </div>
+            <div class="popup" onclick="togglePopup('results_check')">
+                <span class="popuptext" id="results_check">Popup text...</span>
+            </div>
+            <br>
+            <i>
+            This function creates a new EKS cluster (and its associated vpc, subnets, etc.) using the boto3 API.
+            <br>
+            Click 'Check Cluster Status' to view filtered data about live clusters. Click 'Create EKS Cluster' to create a new cluster.
+            <br>
+            Creating a new cluster may take up to 30 minutes to complete. However, you can check its status immediately.
+            <br>                      
+            <b>CLUSTERS WILL BE AUTOMATICALLY DELETED 30 MINUTES AFTER CREATION IS FINISHED</b>
+            <br>
+            </i>
+            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/cluster_demo.py">GitHub</a>
+            <hr>
+        </div>
+        <br>
+        <br>
+        <h2><b><u>OTHER STUFF</u></b></h2>
+        If you would like to see my Kubernetes deployment video using eksctl and kubectl, you can see it here: <a href="https://www.youtube.com/watch?v=t9iuhXzsGyk">YouTube</a>
+        <br>
+        <br>
+        You can find some other unrelated code scraps here (if interested): <a href="https://github.com/AlecApp/CodeScraps">GitHub</a>
+        <br>
+        <br>
+        <br>
+        <br>
+	</body>
+</html>

@@ -3,7 +3,7 @@
 # A possible solution to this is formatting or updating the code in the build/deploy pipeline.
 resource "null_resource" "setup_db" {
   provisioner "local-exec" {
-    command = "sed -i -e 's/MASTER_USER/${aws_ssm_parameter.master_username.value}/g' -e 's/MASTER_PASSWORD/${aws_ssm_parameter.master_password.value}/g' -e 's/DATABASE_NAME/${aws_rds_cluster.db.database_name}/g' -e 's/DB_HOST/${aws_rds_cluster.db.endpoint}/g' -e 's/DB_PORT/${aws_rds_cluster.db.port}/g' ../setup_db/setup_db.py"
+    command = "sed -i -e 's/MASTER_USER/${aws_ssm_parameter.master_username.value}/g' -e 's/MASTER_PASSWORD/${aws_ssm_parameter.master_password.value}/g' -e 's/DB_NAME/${aws_rds_cluster.db.database_name}/g' -e 's/DB_HOST/${aws_rds_cluster.db.endpoint}/g' -e 's/DB_PORT/${aws_rds_cluster.db.port}/g' ../setup_db/setup_db.py"
   }
   provisioner "local-exec" {
     command = "cat ../setup_db/setup_db.py"
