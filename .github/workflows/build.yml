@@ -23,4 +23,4 @@ jobs:
         with:
           push: true
           context: .
-          tags: ${{ github.repository_owner }}/${{ github.repository_name }}:latest
+          tags: AlecApp/Website:latest
