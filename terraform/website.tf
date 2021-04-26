@@ -21,14 +21,19 @@ resource "tls_private_key" "website_key" {
 module "website_key_pair" {
   source = "terraform-aws-modules/key-pair/aws"
 
-  key_name   = "website_key"
+  key_name   = "website-${var.env}"
   public_key = tls_private_key.website_key.public_key_openssh
 }
 
 resource "aws_ssm_parameter" "website_private_key" {
-  name  = "website_private_key"
-  type  = "SecureString"
-  value = tls_private_key.website_key.private_key_pem
+  name        = "/${var.env}/website/private-key"
+  description = "The private key for the Website"
+  type        = "SecureString"
+  value       = tls_private_key.website_key.private_key_pem
+  tags = {
+    terraform   = "true"
+    environment = var.env
+  }
 }
 
 module "website_instance" {
@@ -41,7 +46,7 @@ module "website_instance" {
   create_default_security_group = false
   subnet                        = module.vpc.public_subnets[0]
   associate_public_ip_address   = true
-  name                          = "website"
+  name                          = "website-${var.env}"
   user_data                     = "../user_data.yml"
   tags = {
     environment = var.env

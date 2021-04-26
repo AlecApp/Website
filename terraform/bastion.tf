@@ -1,20 +1,20 @@
 # Create Bastion Ley
-resource "tls_private_key" "bastion_tls_key" {
+resource "tls_private_key" "bastion_key" {
   algorithm = "RSA"
 }
 
 module "bastion_key_pair" {
   source     = "terraform-aws-modules/key-pair/aws"
   key_name   = "bastion-${var.env}"
-  public_key = tls_private_key.bastion_tls_key.public_key_openssh
+  public_key = tls_private_key.bastion_key.public_key_openssh
 }
 
 # Store Bastion's private key in SSM Parameter Store
 resource "aws_ssm_parameter" "bastion_private_key" {
   name        = "/${var.env}/bastion/private-key"
   description = "The private key for the Bastion Host"
-  type        = "String"
-  value       = tls_private_key.bastion_tls_key.private_key_pem
+  type        = "SecureString"
+  value       = tls_private_key.bastion_key.private_key_pem
   tags = {
     terraform   = "true"
     environment = var.env
@@ -32,7 +32,7 @@ module "bastion" {
   vpc_id                       = module.vpc.vpc_id
   is_lb_private                = false
   create_dns_record            = false
-  bastion_host_key_pair        = module.bastion_key_pair.this_key_pair_key_name
+  bastion_host_key_pair        = module.bastion_key_pair.key_pair_key_name
   bastion_iam_policy_name      = "bastion-${var.env}-iam-policy"
   elb_subnets                  = module.vpc.public_subnets
   auto_scaling_group_subnets   = module.vpc.public_subnets
