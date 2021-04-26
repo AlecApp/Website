@@ -1,7 +1,8 @@
 
 data "aws_ami" "amazon_linux_2" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["Amazon Web Services"]
+
   filter {
     name   = "name"
     values = ["Amazon Linux 2"]
