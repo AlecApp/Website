@@ -24,6 +24,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          registry: ghcr.io
           push: true
           context: .
-          tags: ghcr.io/website:latest
+          tags: alecapp/website:latest
