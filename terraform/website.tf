@@ -67,6 +67,15 @@ data "template_cloudinit_config" "config" {
   }
 }
 
+resource "aws_eip" "website_eip" {
+  instance = module.website_instance.id
+  vpc      = true
+  tags = {
+    environment = var.env
+    terraform   = true
+  }
+}
+
 module "website_instance" {
   source                        = "cloudposse/ec2-instance/aws"
   version                       = ">= 0.30.4"
@@ -79,6 +88,7 @@ module "website_instance" {
   create_default_security_group = false
   subnet                        = module.vpc.public_subnets[0]
   associate_public_ip_address   = true
+  assign_eip_address            = false
   name                          = "website-${var.env}"
   user_data                     = data.template_cloudinit_config.config.rendered
   tags = {
