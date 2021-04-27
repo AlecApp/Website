@@ -57,12 +57,9 @@ data "template_cloudinit_config" "config" {
     sudo service docker start
     sudo usermod -a -G docker ec2-user
     docker login ghcr.io -u AlecApp -p ${var.github_pat}
-    docker pull ghcr.io/alecapp/website:latest
-    sudo yum install jq -y
     TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
     && curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/iam/security-credentials/website-demo
-    docker run -p 80:80 -d ghcr.io/alecapp/website:latest -e AWS_ACCESS_KEY_ID=$(cat credentials.json | jq .AccessKeyId) -e AWS_SECRET_ACCESS_KEY=$(cat credentials.json | jq .SecretAccessKey)
-    echo "${var.cidr_alec}" > /tmp/output.txt
+    echo $TOKEN > /tmp/output.txt
     EOF
   }
 }
