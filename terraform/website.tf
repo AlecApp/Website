@@ -55,12 +55,11 @@ data "template_cloudinit_config" "config" {
     sudo service docker start
     sudo usermod -a -G docker ec2-user
     docker login ghcr.io -u AlecApp -p ${var.github_pat}
-    docker run ghcr.io/alecapp/website:latest -d -p 80:80
+    docker run -p 80:80 -d ghcr.io/alecapp/website:latest
     echo "${var.cidr_alec}" > /tmp/output.txt
     EOF
   }
 }
-
 
 module "website_instance" {
   source                        = "cloudposse/ec2-instance/aws"
