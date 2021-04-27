@@ -1,8 +1,19 @@
 import boto3   
 import json
+import os
 
 def describe():
-    ec2client = boto3.client('ec2','us-east-1')
+    os.system("TOKEN=$(curl -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\")")
+    os.system("curl -H \"X-aws-ec2-metadata-token: $TOKEN\" -v http://169.254.169.254/latest/meta-data/iam/security-credentials/website-demo > credentials.json")
+
+    ec2client = boto3.client(
+        'ec2',
+        'us-east-1',
+        aws_access_key_id=os.system("cat credentials.json | jq .AccessKeyId"),
+        aws_secret_access_key=os.system("cat credentials.json | jq .SecretAccessKey"),
+        aws_session_token=os.system("cat credentials.json | jq .Token")
+    )
+    # os.system("rm credentials.py")
     response = ec2client.describe_instances(
         Filters=[
             {
