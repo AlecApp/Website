@@ -55,7 +55,7 @@ data "template_cloudinit_config" "config" {
     sudo service docker start
     sudo usermod -a -G docker ec2-user
     docker login ghcr.io -u AlecApp -p ${var.github_pat}
-    docker run ghcr.io/AlecApp/website:latest --publish 80:80
+    docker run ghcr.io/alecapp/website:latest --publish 80:80
     echo "${var.cidr_alec}" > /tmp/output.txt
     EOF
   }
