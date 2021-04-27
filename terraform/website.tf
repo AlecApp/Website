@@ -62,8 +62,9 @@ data "template_cloudinit_config" "config" {
     curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/iam/security-credentials/website-${var.env} > credentials.json
     AWS_ACCESS_KEY_ID=$(cat credentials.json | jq .AccessKeyId)
     AWS_SECRET_ACCESS_KEY=$(cat credentials.json | jq .SecretAccessKey)
+    AWS_SESSION_TOKEN=$(cat credentials.json | jq .Token)
     docker pull ghcr.io/alecapp/website:latest
-    docker run -p 80:80 -d ghcr.io/alecapp/website:latest -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -d ghcr.io/alecapp/website:latest
     echo $AWS_ACCESS_KEY_ID > /tmp/output.txt
     EOF
   }
