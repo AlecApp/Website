@@ -64,7 +64,7 @@ data "template_cloudinit_config" "config" {
     AWS_SECRET_ACCESS_KEY=$(cat credentials.json | jq .SecretAccessKey)
     AWS_SESSION_TOKEN=$(cat credentials.json | jq .Token)
     docker pull ghcr.io/alecapp/website:latest
-    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -d ghcr.io/alecapp/website:latest
+    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN -d ghcr.io/alecapp/website:latest
     echo $AWS_ACCESS_KEY_ID > /tmp/output.txt
     EOF
   }
