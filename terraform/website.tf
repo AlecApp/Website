@@ -54,6 +54,8 @@ data "template_cloudinit_config" "config" {
     sudo amazon-linux-extras install docker
     sudo service docker start
     sudo usermod -a -G docker ec2-user
+    docker login ghcr.io -u AlecApp -p ${var.github_pat}
+    docker run ghcr.io/AlecApp/website --publish 80:80
     echo "${var.cidr_alec}" > /tmp/output.txt
     EOF
   }

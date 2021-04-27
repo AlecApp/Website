@@ -42,3 +42,9 @@ variable "cidr_alec" {
   description = "Public IP for the approved user."
   sensitive   = true
 }
+
+variable "github_pat" {
+  type        = string
+  description = "GitHub PAT for pulling GHCR image."
+  sensitive   = true
+}
