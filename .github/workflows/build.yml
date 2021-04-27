@@ -26,4 +26,4 @@ jobs:
         with:
           push: true
           context: .
-          tags: ghcr.io/${{ github.repository_owner }}/website:latest
+          tags: ghcr.io/alecapp/website:latest
