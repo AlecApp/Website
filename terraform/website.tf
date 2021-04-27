@@ -42,7 +42,7 @@ data "template_cloudinit_config" "config" {
   part {
     content_type = "text/cloud-config"
     filename     = "cloud-config.txt"
-    content      = data.template_file.client.rendered
+    content      = data.template_file.user_data.rendered
   }
 
   part {
