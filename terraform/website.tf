@@ -58,7 +58,7 @@ data "template_cloudinit_config" "config" {
     sudo usermod -a -G docker ec2-user
     docker login ghcr.io -u ${var.github_owner} -p ${var.github_pat}
     docker pull ghcr.io/alecapp/website:${var.env}
-    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=${aws_iam_access_key.boto3.id} -e AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.boto3.secret} -e ENVIRONMENT_NAME=${var.env} -d ghcr.io/alecapp/website:latest
+    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=${aws_iam_access_key.boto3.id} -e AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.boto3.secret} -e ENVIRONMENT_NAME=${var.env} -d ghcr.io/alecapp/website:${var.env}
     EOF
   }
 }

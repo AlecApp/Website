@@ -76,7 +76,7 @@ resource "aws_rds_cluster" "db" {
   }
 
   tags = {
-    environment = "${var.env}"
+    environment = var.env
     terraform   = "true"
   }
 }
