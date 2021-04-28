@@ -3,7 +3,6 @@ FROM centos:8
 RUN yum install -y httpd httpd-devel
 RUN dnf install -y python3 python3-devel
 RUN yum install -y python3-mod_wsgi
-RUN yum install -y jq
 
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
