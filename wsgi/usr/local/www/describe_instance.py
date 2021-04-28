@@ -14,7 +14,7 @@ def describe():
         Filters=[
             {
                 'Name': 'tag:Name',
-                'Values': ['website-{0}'.format(env)]
+                'Values': ['website-demo']
             }
         ]
     )
