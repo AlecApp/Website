@@ -95,7 +95,8 @@ resource "aws_security_group_rule" "ssh_in" {
   to_port           = 22
   protocol          = "tcp"
   security_group_id = aws_security_group.website.id
-  cidr_blocks       = [var.cidr_alec, "15.230.56.104/31"]
+  # cidr_blocks       = [var.cidr_alec, "15.230.56.104/31"]
+  cidr_blocks = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "ssh_out" {
