@@ -18,7 +18,6 @@ def describe():
             }
         ]
     )
-    os.system("echo %s > /tmp/response.json" % response)
     output = {}
     for reservation in response["Reservations"]:
         for instance in reservation["Instances"]:
@@ -27,7 +26,7 @@ def describe():
             output["ImageId"] = instance["ImageId"]
             output["InstanceType"] = instance["InstanceType"]
             output["Monitoring"] = instance["Monitoring"]
-            output["PublicDnsName"] = instance["PublicDnsName"]
+            output["PublicIpAddress"] = instance["PublicIpAddress"]
             output["State"] = instance["State"]
             output["Architecture"] = instance["Architecture"]
 
