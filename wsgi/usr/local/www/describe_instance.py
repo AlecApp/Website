@@ -9,7 +9,7 @@ def describe():
         'us-east-1'
     )
     env = os.system("echo $ENVIRONMENT_NAME")
-    # Note that 'website-%s' % env does NOT work. Use a different method of formatting the string.
+    # Note that 'website-%s' % env does NOT work. Use a different method of formatting the string. Concat e.g. s + s and the .format() method both work.
     response = ec2client.describe_instances(
         Filters=[
             {
