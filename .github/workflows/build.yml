@@ -23,7 +23,7 @@ jobs:
       # Should probably convert this to :demo for consistency with TF environment name?
       - name: Set Env Name (deployment)
         if: github.ref == 'refs/heads/main'
-        run: echo "ENVIRONMENT_NAME=latest" >> $GITHUB_ENV
+        run: echo "ENVIRONMENT_NAME=demo" >> $GITHUB_ENV
       
       - name: Set Env Name (dev)
         if: github.ref != 'refs/heads/main'
