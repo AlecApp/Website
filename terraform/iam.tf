@@ -1,3 +1,4 @@
+# IAM role for Lambda function to access RDS Cluster & populate it with data
 data "aws_iam_policy" "lambda_policy_vpc" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
@@ -38,6 +39,7 @@ resource "aws_iam_role_policy_attachment" "lambda_attach_rds" {
   policy_arn = data.aws_iam_policy.lambda_policy_rds.arn
 }
 
+# IAM User to allow boto3 to make API calls. The keys for this user are passed to the container by the instance startup script.
 resource "aws_iam_access_key" "boto3" {
   user = aws_iam_user.boto3.name
 }

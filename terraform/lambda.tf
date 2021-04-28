@@ -13,6 +13,7 @@ resource "null_resource" "setup_db" {
   }
 }
 
+# Lambda function to populate the RDS Cluster with data
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
 

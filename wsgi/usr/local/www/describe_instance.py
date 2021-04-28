@@ -14,7 +14,7 @@ def describe():
         Filters=[
             {
                 'Name': 'tag:Name',
-                'Values': ['website-demo']
+                'Values': ['website-{0}'.format(env)]
             }
         ]
     )
@@ -31,7 +31,7 @@ def describe():
             output["State"] = instance["State"]
             output["Architecture"] = instance["Architecture"]
 
-    with open('/tmp/output_file.json', 'w') as f:
-        json.dump(response, f)
+     with open('/tmp/output_output.json', 'w') as f:
+        json.dump(output, f)
     
     return(output)

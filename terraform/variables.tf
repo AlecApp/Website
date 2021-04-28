@@ -43,6 +43,7 @@ variable "cidr_alec" {
   sensitive   = true
 }
 
+# Value stored in Terraform Cloud
 variable "github_pat" {
   type        = string
   description = "GitHub PAT for pulling GHCR image."

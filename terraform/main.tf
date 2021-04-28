@@ -89,6 +89,7 @@ resource "aws_security_group_rule" "https_out" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+# Should probably restrict the CIDR blocks to my cidr & the AWS address pool for us-east-1.
 resource "aws_security_group_rule" "ssh_in" {
   type              = "ingress"
   from_port         = 22
