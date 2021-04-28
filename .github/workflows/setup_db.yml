@@ -1,8 +1,5 @@
-# Note that this is not intended to be a full workflow, just a demonstration of coding structure & knowledge.
-# In reality, this workflow would be a terrible idea because the .tfstate is being stored locally on an ephemeral GitHub Runner.
-# This means that the state file will be deleted when the workflow finishes, preventing us from properly destroying the state without first "discovering" the existing resources.
-
-# In an actual production environment, this workflow would have more jobs, more steps, and it would be storing the .tfstate in Terraform Cloud.
+# This workflow runs the script which populates the database with the JSON data from /setup_db/moviedata.json
+# This workflow could be automated as part of CI/CD, but it's manually triggered for now.
 
 name: Setup Database
 on:
@@ -25,7 +22,7 @@ jobs:
       - name: Checkout Master Branch
         uses: actions/checkout@master
       
-      - name: Get Caller Identity
+      - name: Populate DB
         continue-on-error: false
         run: python db_setup/test.py
         env:
