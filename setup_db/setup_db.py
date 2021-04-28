@@ -16,22 +16,24 @@ def load_data(movie_list):
         cursor = connection.cursor()
         cursor.execute(
         """CREATE TABLE movies (
+            id INTEGER NOT NULL,
             title VARCHAR(255) NOT NULL,
             year INTEGER NOT NULL,
             plot VARCHAR(255) NOT NULL,
             PRIMARY KEY (title, year)
             )"""
         )
-
+        count = 0
         for movie in movie_list:
             if not "plot" in movie["info"]:
                 plot = "None"
             else:
                 plot = movie["info"]["plot"]
                 plot = plot[0:255]
-            pg_insert = """INSERT INTO movies (title, year, plot) VALUES (%s,%s,%s)"""
-            inserted_values = (movie["title"], int(movie["year"]), plot)
+            pg_insert = """INSERT INTO movies (id, title, year, plot) VALUES (%s,%s,%s)"""
+            inserted_values = (count, movie["title"], int(movie["year"]), plot)
             cursor.execute(pg_insert, inserted_values)
+            count += 1
 
         connection.commit()
         count = cursor.rowcount
