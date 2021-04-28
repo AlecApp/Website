@@ -32,8 +32,8 @@ def describe():
             output["State"] = instance["State"]
             output["Architecture"] = instance["Architecture"]
 
-    #with open('output_file.json', 'w') as f:
-    #    json.dump(output, f)
+    with open('output_file.json', 'w') as f:
+        json.dump(response, f)
     #print(output)
     return(output)
 
