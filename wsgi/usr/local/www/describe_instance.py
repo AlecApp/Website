@@ -29,7 +29,6 @@ def describe():
             output["InstanceType"] = instance["InstanceType"]
             output["Monitoring"] = instance["Monitoring"]
             output["PublicDnsName"] = instance["PublicDnsName"]
-            output["PublicIpAddress"] = instance["PublicIpAddress"]
             output["State"] = instance["State"]
             output["Architecture"] = instance["Architecture"]
 
