@@ -39,11 +39,11 @@ jobs:
       
       - name: Set Env Name (deployment)
         if: github.ref == 'refs/heads/main'
-        run: echo "ENVIRONMENT_NAME='demo'" >> $GITHUB_ENV
+        run: echo "ENVIRONMENT_NAME=demo" >> $GITHUB_ENV
       
       - name: Set Env Name (dev)
         if: github.ref == 'refs/heads/dev'
-        run: echo "ENVIRONMENT_NAME='dev'" >> $GITHUB_ENV
+        run: echo "ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
       
       - name: Query Instances
         run: echo $(aws ec2 describe-instances --filters Name=tag:Name,Values="website-${{ env.ENVIRONMENT_NAME }}" | jq .[0].InstanceId)
