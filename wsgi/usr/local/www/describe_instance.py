@@ -20,6 +20,7 @@ def describe():
             }
         ]
     )
+    os.system("echo %s > /tmp/output_file.json" % response)
     output = {}
     for reservation in response["Reservations"]:
         for instance in reservation["Instances"]:
@@ -32,7 +33,7 @@ def describe():
             output["State"] = instance["State"]
             output["Architecture"] = instance["Architecture"]
 
-    with open('output_file.json', 'w') as f:
+    with open('/tmp/output_file.json', 'w') as f:
         json.dump(response, f)
     #print(output)
     return(output)
