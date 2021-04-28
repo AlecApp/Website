@@ -30,7 +30,7 @@ jobs:
           tags: ghcr.io/alecapp/website:latest
 
   deploy:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
     name: Deploy to Environment
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +38,7 @@ jobs:
         run: pip install awscli --upgrade
       
       - name: Set Env Name (deployment)
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: echo "ENVIRONMENT_NAME='demo'" >> $GITHUB_ENV
       
       - name: Set Env Name (dev)
