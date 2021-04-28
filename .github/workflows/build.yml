@@ -19,17 +19,26 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Should probably convert this to :demo for consistency with TF environment name?
+      - name: Set Env Name (deployment)
+        if: github.ref == 'refs/heads/main'
+        run: echo "ENVIRONMENT_NAME=latest" >> $GITHUB_ENV
       
-      # Need to split this into website:demo & website:dev and make the necessary TF code changes to support that.
+      - name: Set Env Name (dev)
+        if: github.ref != 'refs/heads/main'
+        run: echo "ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
+      
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
           context: .
-          tags: ghcr.io/alecapp/website:latest
+          tags: ghcr.io/alecapp/website:${{ env.ENVIRONMENT_NAME }}
 
   deploy:
+    needs: [build]
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
     name: Deploy to Environment
     runs-on: ubuntu-latest
