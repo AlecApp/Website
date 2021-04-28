@@ -1,9 +1,11 @@
 # Website
 ---
 
-View live project at: http://54.205.193.16/
+**View live project at:** http://54.205.193.16/
 
 ---
+
+## Description
 A repository for demonstrating a full CI/CD pipeline which does the following:
 1. Builds & Configures AWS environment using Terraform IaC & Python
 3. Builds & Configures a Docker container for my project website
