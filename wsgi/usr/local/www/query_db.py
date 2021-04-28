@@ -1,29 +1,55 @@
-#This script uses code from the AWS tutorial on Python and DynamoDB interactions
-#found here: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.html
-#The code has been slightly tweaked and commented on to show that I understand it.
-#The database used was created using code from that tutorial. (I haven't included it here for that reason)
+from decimal import Decimal
+from psycopg2 import sql
+import json
+import psycopg2
 
-import boto3
-from boto3.dynamodb.conditions import Key
+def query_data():
+    db_user = os.environ.get('DB_USER')
+    db_password = os.environ.get('DB_PASSWORD')
+    db_host = os.environ.get('DB_HOST')
+    db_port = os.environ.get('DB_PORT')
+    db_name = os.environ.get('DB_NAME')
+    try:
+        connection = psycopg2.connect(
+            user = db_user,
+            password = db_password,
+            host = db_host,
+            port = db_port,
+            database = db_name
+        )
 
-def query_movies(year, dynamodb=None):
+        cursor = connection.cursor()
+        cursor.execute(
+        """CREATE TABLE movies (
+            title VARCHAR(255) NOT NULL,
+            year INTEGER NOT NULL,
+            plot VARCHAR(255) NOT NULL,
+            PRIMARY KEY (title, year)
+            )"""
+        )
 
-    #If no DynamoDB resource was specified, set our database to be the one in us-east-1.
-    if not dynamodb:
-        dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+        for movie in movie_list:
+            if not "plot" in movie["info"]:
+                plot = "None"
+            else:
+                plot = movie["info"]["plot"]
+                plot = plot[0:255]
+            pg_insert = """INSERT INTO movies (title, year, plot) VALUES (%s,%s,%s)"""
+            inserted_values = (movie["title"], int(movie["year"]), plot)
+            cursor.execute(pg_insert, inserted_values)
 
-    #Retrieve our "Movies" table and query it for movies whose "year" field matches our year variable.
-    table = dynamodb.Table('Movies')
-    response = table.query(
-            KeyConditionExpression=Key('year').eq(year)
-    )
-    
-    #return our list of movie data objects
-    return response['Items']
+        connection.commit()
+        count = cursor.rowcount
+        print (count, "Successfully inserted")
 
-#if __name__ == '__main__':
- #   query_year = 1985
- #   print(f"Movies from {query_year}")
-  #  movies = query_movies(query_year)
-   # for movie in movies:
-    #    print(movie['year'], ":", movies['title'])
+
+    except(Exception, psycopg2.Error) as error:
+        print("Error connecting to PostgreSQL database", error)
+        connection = None
+
+    finally:
+        if(connection != None):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is now closed")
+            
