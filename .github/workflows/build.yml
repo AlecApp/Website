@@ -59,7 +59,7 @@ jobs:
       - name: Reboot Instance
         run: |
           echo $(aws ec2 describe-instances --filters Name=tag:Name,Values="website-${{ env.ENVIRONMENT_NAME }}" | jq '.Reservations[0].Instances[0].InstanceId') \
-          | sed -e 's/"//g' | aws ec2 reboot-instances --instance-ids $(</dev/stdin)
+          | sed -e 's/"//g'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_GH_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_GH_SECRET_KEY }}
