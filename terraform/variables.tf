@@ -48,3 +48,9 @@ variable "github_pat" {
   description = "GitHub PAT for pulling GHCR image."
   sensitive   = true
 }
+
+variable "github_owner" {
+  type        = string
+  description = "Owner of GitHub PAT"
+  default     = "AlecApp"
+}

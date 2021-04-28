@@ -1,3 +1,5 @@
+# Code for Bastion Host that connected to the RDS Cluster. Disabled to save on costs.
+
 # # Create Bastion Ley
 # resource "tls_private_key" "bastion_key" {
 #   algorithm = "RSA"
