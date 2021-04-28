@@ -3,20 +3,18 @@ import json
 import os
 
 def describe():
-  #  os.system("TOKEN=$(curl -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\")")
-  #  os.system("curl -H \"X-aws-ec2-metadata-token: $TOKEN\" -v http://169.254.169.254/latest/meta-data/iam/security-credentials/website-demo > /tmp/credentials.json")
-
+    # Note that attempting to get auth credentials from the instance metadata will fail (b/c Docker). Instead, I'm passing the creds as environment variables in the startup script.
     ec2client = boto3.client(
         'ec2',
         'us-east-1'
     )
-    # os.system("rm credentials.py")
     env = os.system("echo $ENVIRONMENT_NAME")
+    # Note that 'website-%s' % env does NOT work. Use a different method of formatting the string.
     response = ec2client.describe_instances(
         Filters=[
             {
                 'Name': 'tag:Name',
-                'Values': ['website-(%s)' % env]
+                'Values': ['website-{0}'.format(env)]
             }
         ]
     )
@@ -35,6 +33,5 @@ def describe():
 
     with open('/tmp/output_file.json', 'w') as f:
         json.dump(response, f)
-    #print(output)
+    
     return(output)
-
