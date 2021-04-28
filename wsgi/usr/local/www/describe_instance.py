@@ -11,11 +11,12 @@ def describe():
         'us-east-1'
     )
     # os.system("rm credentials.py")
+    env = os.system("echo $ENVIRONMENT_NAME")
     response = ec2client.describe_instances(
         Filters=[
             {
                 'Name': 'tag:Name',
-                'Values': ['Website']
+                'Values': ['website-(%s)' % env]
             }
         ]
     )
