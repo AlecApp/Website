@@ -3,7 +3,7 @@ from psycopg2 import sql
 import json
 import psycopg2
 
-def query_data():
+def query_movies():
 
  #   db_user = os.environ.get('DB_USER')
  #   db_password = os.environ.get('DB_PASSWORD')
