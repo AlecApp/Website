@@ -19,7 +19,7 @@ def describe():
             {
                 'Name': 'State',
                 'Values': [{
-                    'Name':'pending'
+                    'Name':'running'
                 }]
             }
         ]
