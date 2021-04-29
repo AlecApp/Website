@@ -28,9 +28,9 @@ def query_movies(year):
         cursor = connection.cursor()
         sql ="""SELECT * FROM movies WHERE year=1985"""
         cursor.execute(sql)
-        results = cursor.fetchall()
-        with open('/tmp/results.csv', 'w') as f:
-            cursor.copy_expert(sql, f)
+        response = cursor.fetchall()
+        with open('/tmp/response.json', 'w') as f:
+            json.dump(response, f)
  #       cursor.execute(
  #       """CREATE TABLE movies (
  #           title VARCHAR(255) NOT NULL,
