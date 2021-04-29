@@ -117,9 +117,12 @@
                     data: $('#year').serialize(),
                     success: function(data){
                         data = JSON.parse(data);
+                        /* Old code for DynamoDB version
                         console.log(data[0]);
                         r = Math.floor(Math.random() * Object.keys(data).length);
                         resultsString = "<b><u>RESULTS: --Click to close--</u></b><br>TITLE: " + data[r]["title"] + "<br>RELEASED: " + data[r]["info"]["release_date"].slice(0, 10);
+                        */
+                        resultsString = "<b><u>RESULTS: --Click to close--</u></b><br>TITLE: " + data["title"] + "<br>RELEASED: " + data["year"];
                         document.getElementById("results_movies").innerHTML = resultsString;
                         togglePopup("results_movies");
                     }

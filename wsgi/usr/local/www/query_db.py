@@ -30,31 +30,18 @@ def query_movies(year):
         cursor.execute(sql)
         response = cursor.fetchall()
         movie = random.choice(response)
-        with open('/tmp/response.json', 'w') as f:
-            json.dump(movie, f)
- #       cursor.execute(
- #       """CREATE TABLE movies (
- #           title VARCHAR(255) NOT NULL,
- #           year INTEGER NOT NULL,
- #           plot VARCHAR(255) NOT NULL,
- #           PRIMARY KEY (title, year)
- #           )"""
- #       )
-#
- #       for movie in movie_list:
- #           if not "plot" in movie["info"]:
- #               plot = "None"
- #           else:
- #               plot = movie["info"]["plot"]
- #               plot = plot[0:255]
- #           pg_insert = """INSERT INTO movies (title, year, plot) VALUES (%s,%s,%s)"""
- #           inserted_values = (movie["title"], int(movie["year"]), plot)
- #           cursor.execute(pg_insert, inserted_values)
-
+        # with open('/tmp/response.json', 'w') as f:
+        #    json.dump(movie, f)
         connection.commit()
-        count = cursor.rowcount
-        print (count, "Successfully inserted")
+        print ("Successfully queried")
 
+        movie_dict = {
+            "title": movie[1],
+            "year": movie[2],
+            "plot": movie[3]
+        }
+
+        return movie_dict
 
     except(Exception, psycopg2.Error) as error:
         print("Error connecting to PostgreSQL database", error)
