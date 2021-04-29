@@ -41,7 +41,7 @@ def query_movies(year):
             "plot": movie[3]
         }
 
-        return json.dump(movie_dict)
+        return json.dumps(movie_dict)
 
     except(Exception, psycopg2.Error) as error:
         print("Error connecting to PostgreSQL database", error)
