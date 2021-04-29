@@ -29,7 +29,7 @@ def query_movies(year):
         sql ="""SELECT * FROM movies WHERE year=1985"""
         cursor.execute(sql)
         response = cursor.fetchall()
-        movie = response[random.choice(response)]
+        movie = random.choice(response)
         with open('/tmp/response.json', 'w') as f:
             json.dump(movie, f)
  #       cursor.execute(
