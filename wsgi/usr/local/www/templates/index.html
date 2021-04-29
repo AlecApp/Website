@@ -9,19 +9,22 @@
 		<h1>This website is a showcase for my AWS projects.</h1>
 		<h4>
         This website is running on a single t2.micro EC2 instance in my own AWS cloud.
-        The server is a LAMP server hosting a Flask (Python) application. I built the image myself based on AWS Linux 2.
+        The server is a Dockerized Apache + Flask (Python) application with HTML + JavaScript for the frontend.
+        Source Code is available here: <a href="https://github.com/AlecApp/Website">GitHub</a>
         <br>
-        I chose Flask over Node.js because I wanted to demonstrate knowledge of Python.
-        Below, I've included some live examples to showcase knowledge of AWS, Python, and tech in general.
+        The server is part of a cloud environment which includes an Aurora Postgres cluster (RDS) and numerous other components.
+        The server and its infrastructure are built via IaC (Terraform) and a CI/CD pipeline (GitHub Actions).
+        Below, I've included some live examples of Python functions demonstrating API calls to the AWS resources.
         <br>
         <br>
         <u>The source code for each function is linked at the bottom of that function's description.</u>
         <br>
         <br>
-        Please keep in mind that this website is a WIP. Launched 10/29/20. Almost everything demonstrated here (Python, JavaScript, etc.) is self-taught.
+        Please keep in mind that this website is a WIP. Almost everything demonstrated here (Python, Terraform, JavaScript, etc.) is self-taught.
+        Also note that the server only supports HTTP (not HTTPS). If you encounter a 500 error, make sure you're connecting via the correct protocol.
         <br>
         <br>
-        Thanks for checking it out.
+        Thanks for checking this out.
         <br>
         <br>
         -- Alec --
@@ -144,11 +147,9 @@
             This function uses the boto3 API to query current settings for the instance hosting this webpage.
             <br>
             The query is filtered by tags (to exclude other instances) and the results are selectively represented.
-            <br>
-            This function does not return CloudWatch metrics (CPU usage, etc.) That will be a separate function.
             </i>
             <br>
-            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/describe_instance.py">GitHub</a>
+            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/wsgi/usr/local/www/describe_instance.py">GitHub</a>
             <hr>
         </div>
         <br>
@@ -164,7 +165,7 @@
             </div>
             <br>
             <i>
-            This function takes an input variable (a year between 1920 - 2017) and queries a DynamoDB table built with
+            This function takes an input variable (a year between 1920 - 2017) and queries an Aurora Postgres cluster built with
             data pulled from IMDB.
             <br>
             Uses the boto3 API. Data is returned as a JSON string, which JavaScript parses and
@@ -174,7 +175,7 @@
             (This makes it useful for playing Charades!)
             </i>
             <br>
-            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/query_db.py">GitHub</a>
+            View Source Code: <a href="https://github.com/AlecApp/Website/blob/main/wsgi/usr/local/www/query_db.py">GitHub</a>
             <hr>
         </div>
         <br>
@@ -209,6 +210,7 @@
         <br>
         <-->
         <br>
+        <!--
         <h2><b><u>OTHER STUFF</u></b></h2>
         If you would like to see my Kubernetes deployment video using eksctl and kubectl, you can see it here: <a href="https://www.youtube.com/watch?v=t9iuhXzsGyk">YouTube</a>
         <br>
@@ -216,6 +218,7 @@
         You can find some other unrelated code scraps here (if interested): <a href="https://github.com/AlecApp/CodeScraps">GitHub</a>
         <br>
         <br>
+        -->
         <br>
         <br>
 	</body>
