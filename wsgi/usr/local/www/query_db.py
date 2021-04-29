@@ -1,8 +1,8 @@
-from decimal import Decimal
-from psycopg2 import sql
 import json
 import psycopg2
 import os
+import random
+from psycopg2 import sql
 
 def query_movies(year):
 
@@ -29,8 +29,9 @@ def query_movies(year):
         sql ="""SELECT * FROM movies WHERE year=1985"""
         cursor.execute(sql)
         response = cursor.fetchall()
+        movie = response[random.choice(response)]
         with open('/tmp/response.json', 'w') as f:
-            json.dump(response, f)
+            json.dump(movie, f)
  #       cursor.execute(
  #       """CREATE TABLE movies (
  #           title VARCHAR(255) NOT NULL,
