@@ -26,7 +26,7 @@ def query_movies(year):
             database = db_name
         )
         cursor = connection.cursor()
-        sql ="""SELECT * FROM movies WHERE year=1985"""
+        sql ="""SELECT * FROM movies WHERE year={0}""".format(year)
         cursor.execute(sql)
         response = cursor.fetchall()
         movie = random.choice(response)
