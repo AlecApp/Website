@@ -26,10 +26,11 @@ def query_movies(year):
             database = db_name
         )
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM movies WHERE year={0}""".format(year))
+        sql ="""SELECT * FROM movies WHERE year=1985"""
+        cursor.execute(sql)
         results = cursor.fetchall()
-        with open('/tmp/results.json', 'w') as f:
-            json.dump(results, f)
+        with open('/tmp/results.csv', 'w') as f:
+            cursor.copy_expert(sql, f)
  #       cursor.execute(
  #       """CREATE TABLE movies (
  #           title VARCHAR(255) NOT NULL,
