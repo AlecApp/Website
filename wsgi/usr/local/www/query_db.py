@@ -3,7 +3,7 @@ from psycopg2 import sql
 import json
 import psycopg2
 
-def query_movies():
+def query_movies(year):
 
  #   db_user = os.environ.get('DB_USER')
  #   db_password = os.environ.get('DB_PASSWORD')
@@ -25,10 +25,7 @@ def query_movies():
             database = db_name
         )
         cursor = connection.cursor()
-        cursor.execute(
-            """SELECT count(*) FROM movies
-            """
-        )
+        cursor.execute("""SELECT * FROM movies WHERE year={0}""".format(year))
         results = cursor.fetchall()
         with open('/tmp/results.txt', 'w') as f:
             f.write(results)
