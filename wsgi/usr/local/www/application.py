@@ -27,19 +27,21 @@ def getInstanceInfo():
 @application.route('/movies', methods=["GET", "POST"])
 def getMovies():
     
-    #Get list of movies matching queried year from DynamoDB
+    #Get list of movies matching queried year
     movies = query_db.query_movies(int(request.form["year"]))
     
+    # Old Code to sanitize release date
+
     #Sanitize that list (to convert the Decimal data type that json.dumps() can't convert into a Float string that it can.)
     #Go through several layers of dictionaries to reach nested Decimal data.
-    for movie in movies:
-        for key in movie.keys():
-            if isinstance(movie[key], decimal.Decimal):
-                movie[key] = float(movie[key])
-            elif isinstance(movie[key], dict):
-                for key_2 in movie[key].keys():
-                    if isinstance(movie[key][key_2], decimal.Decimal):
-                        movie[key][key_2] = float(movie[key][key_2])
+    # for movie in movies:
+    #    for key in movie.keys():
+    #        if isinstance(movie[key], decimal.Decimal):
+    #            movie[key] = float(movie[key])
+    #        elif isinstance(movie[key], dict):
+    #            for key_2 in movie[key].keys():
+    #                if isinstance(movie[key][key_2], decimal.Decimal):
+    #                    movie[key][key_2] = float(movie[key][key_2])
     
     #Return JSON string of movie data
     return (json.dumps(movies))                      

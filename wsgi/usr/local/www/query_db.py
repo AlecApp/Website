@@ -30,22 +30,14 @@ def query_movies(year):
         cursor.execute(sql)
         response = cursor.fetchall()
         movie = random.choice(response)
-        with open('/tmp/response.json', 'w') as f:
-            json.dump(movie, f)
         connection.commit()
-        print ("Successfully queried")
-        with open('/tmp/response2.json', 'w') as f:
-            json.dump(movie, f)
-        
+        print ("Successfully queried")    
         movie_dict = {
             "title": movie[1],
             "year": movie[2],
             "plot": movie[3]
-        }
-        movie_json = json.dumps(movie_dict, indent=4)
-        with open('/tmp/response3.json', 'w') as f:
-            json.dump(movie_json, f)
-        return movie_json
+        }       
+        return movie_dict
 
     except(Exception, psycopg2.Error) as error:
         print("Error connecting to PostgreSQL database", error)
