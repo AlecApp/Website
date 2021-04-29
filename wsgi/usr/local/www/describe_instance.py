@@ -15,6 +15,10 @@ def describe():
             {
                 'Name': 'tag:Name',
                 'Values': ['website-{0}'.format(env)]
+            },
+            {
+                'Name': 'instance-state-name',
+                'Values': ['running']
             }
         ]
     )
