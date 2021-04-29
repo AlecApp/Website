@@ -35,13 +35,12 @@ def query_movies(year):
         connection.commit()
         print ("Successfully queried")
 
-        movie_dict = {
-            "title": movie[1],
-            "year": movie[2],
-            "plot": movie[3]
-        }
+        movie_dict = {}
+        movie_dict["title"] = movie[1]
+        movie_dict["year"] = movie[2]
+        movie_dict["plot"] = movie[3]
 
-        return json.dumps(movie_dict)
+        return movie_dict
 
     except(Exception, psycopg2.Error) as error:
         print("Error connecting to PostgreSQL database", error)
