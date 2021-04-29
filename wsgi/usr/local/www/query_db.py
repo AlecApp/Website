@@ -28,8 +28,8 @@ def query_movies(year):
         cursor = connection.cursor()
         cursor.execute("""SELECT * FROM movies WHERE year={0}""".format(year))
         results = cursor.fetchall()
-        with open('/tmp/response.json', 'w') as f:
-            json.dump(output, f)
+        with open('/tmp/results.json', 'w') as f:
+            json.dump(results, f)
  #       cursor.execute(
  #       """CREATE TABLE movies (
  #           title VARCHAR(255) NOT NULL,
