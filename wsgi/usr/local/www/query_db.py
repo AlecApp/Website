@@ -30,15 +30,15 @@ def query_movies(year):
         cursor.execute(sql)
         response = cursor.fetchall()
         movie = random.choice(response)
-        # with open('/tmp/response.json', 'w') as f:
-        #    json.dump(movie, f)
+        with open('/tmp/response.json', 'w') as f:
+            json.dump(movie, f)
         connection.commit()
         print ("Successfully queried")
 
         movie_dict = {}
-        movie_dict["title"] = movie[1]
-        movie_dict["year"] = movie[2]
-        movie_dict["plot"] = movie[3]
+        movie_dict["title"] = movie["title"]
+        movie_dict["year"] = movie["year"]
+        movie_dict["plot"] = movie["plot"]
 
         return movie_dict
 
