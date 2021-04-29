@@ -13,7 +13,7 @@ A repository for demonstrating a CI/CD pipeline which does the following:
 4. Deploys the Docker container to the AWS environment using a GitHub Actions workflow.
 
 ## Repository Layout
-`/.github/workflows` - GitHub Actions workflows (build & Deploy Image, Create AWS Infrastructure)
+`/.github/workflows` - GitHub Actions workflows (Build & Deploy Image, Create AWS Infrastructure)
 
 `/setup_db` - Source code (Python, JSON) for the Lambda function which populates the RDS Cluster with data
 
