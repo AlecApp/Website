@@ -1,4 +1,4 @@
-
+# Fetch Amazon Linux 2 AMI
 data "aws_ami" "amazon_linux_2" {
   most_recent = true
   owners      = ["amazon"]
@@ -9,6 +9,7 @@ data "aws_ami" "amazon_linux_2" {
   }
 }
 
+# Create Instance SSH Key
 resource "tls_private_key" "website_key" {
   algorithm = "RSA"
 }
@@ -20,6 +21,7 @@ module "website_key_pair" {
   public_key = tls_private_key.website_key.public_key_openssh
 }
 
+# Store key in SSM in case I want it later
 resource "aws_ssm_parameter" "website_private_key" {
   name        = "/${var.env}/website/private-key"
   description = "The private key for the Website"
@@ -32,7 +34,7 @@ resource "aws_ssm_parameter" "website_private_key" {
 }
 
 
-
+# Configure startup script to run on instance every reboot. Script installs dependencies, pulls latest Docker image, and passes required values as environment variables.
 data "template_file" "user_data" {
   template = file("../user_data.yml")
 }
@@ -63,6 +65,7 @@ data "template_cloudinit_config" "config" {
   }
 }
 
+# Create EIP independently of the instance, so it won't change when the instance gets rebuilt.
 resource "aws_eip" "website_eip" {
   instance = module.website_instance.id
   vpc      = true
@@ -72,6 +75,7 @@ resource "aws_eip" "website_eip" {
   }
 }
 
+# Create EC2 instance to host the Dockerized application
 module "website_instance" {
   source                        = "cloudposse/ec2-instance/aws"
   version                       = ">= 0.30.4"
