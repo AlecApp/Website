@@ -58,7 +58,7 @@ data "template_cloudinit_config" "config" {
     sudo usermod -a -G docker ec2-user
     docker login ghcr.io -u ${var.github_owner} -p ${var.github_pat}
     docker pull ghcr.io/alecapp/website:${var.env}
-    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=${aws_iam_access_key.boto3.id} -e AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.boto3.secret} -e ENVIRONMENT_NAME=${var.env} -d ghcr.io/alecapp/website:${var.env}
+    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=${aws_iam_access_key.boto3.id} -e AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.boto3.secret} -e ENVIRONMENT_NAME=${var.env} -e DB_USER=${aws_ssm_parameter.master_username.value} -e DB_PASSWORD=${aws_ssm_parameter.master_password.value} -e DB_HOST=${aws_rds_cluster.db.reader_endpoint} -e DB_PORT=${aws_rds_cluster.db.port} -e DB_NAME=${aws_rds_cluster.db.database_name} -d ghcr.io/alecapp/website:${var.env} 
     EOF
   }
 }
@@ -80,7 +80,7 @@ module "website_instance" {
   ami_owner                     = "amazon"
   vpc_id                        = module.vpc.vpc_id
   ssh_key_pair                  = module.website_key_pair.key_pair_key_name
-  security_groups               = [aws_security_group.website.id]
+  security_groups               = [aws_security_group.website.id, aws_security_group.allow_postgres.id]
   create_default_security_group = false
   subnet                        = module.vpc.public_subnets[0]
   associate_public_ip_address   = true
