@@ -34,11 +34,12 @@ def query_movies(year):
             json.dump(movie, f)
         connection.commit()
         print ("Successfully queried")
-
+        with open('/tmp/response2.json', 'w') as f:
+            json.dump(movie, f)
         movie_dict = {}
-        movie_dict["title"] = movie["title"]
-        movie_dict["year"] = movie["year"]
-        movie_dict["plot"] = movie["plot"]
+        movie_dict["title"] = str(movie[2])
+        movie_dict["year"] = str(movie[1])
+        movie_dict["plot"] = str(movie[2])
 
         return movie_dict
 
