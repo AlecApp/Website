@@ -58,7 +58,7 @@ data "template_cloudinit_config" "config" {
     sudo usermod -a -G docker ec2-user
     docker login ghcr.io -u ${var.github_owner} -p ${var.github_pat}
     docker pull ghcr.io/alecapp/website:${var.env}
-    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=${aws_iam_access_key.boto3.id} -e AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.boto3.secret} -e ENVIRONMENT_NAME=${var.env} -e DB_USER=${aws_ssm_parameter.master_username.value} -e DB_PASSWORD=${aws_ssm_parameter.master_password.value} -e DB_HOST=${aws_rds_cluster.db.reader_endpoint} -e DB_PORT=${aws_rds_cluster.db.port} -e DB_NAME=${aws_rds_cluster.db.database_name} -d ghcr.io/alecapp/website:${var.env} 
+    docker run -p 80:80 -e AWS_ACCESS_KEY_ID=${aws_iam_access_key.boto3.id} -e AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.boto3.secret} -e ENVIRONMENT_NAME=${var.env} -e DB_USER=${aws_ssm_parameter.master_username.value} -e DB_PASSWORD=${aws_ssm_parameter.master_password.value} -e DB_HOST=${aws_rds_cluster.db.endpoint} -e DB_PORT=${aws_rds_cluster.db.port} -e DB_NAME=${aws_rds_cluster.db.database_name} -d ghcr.io/alecapp/website:${var.env} 
     EOF
   }
 }
