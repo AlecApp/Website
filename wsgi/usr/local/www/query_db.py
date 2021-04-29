@@ -2,6 +2,7 @@ from decimal import Decimal
 from psycopg2 import sql
 import json
 import psycopg2
+import os
 
 def query_movies(year):
 
@@ -10,11 +11,11 @@ def query_movies(year):
  #   db_host = os.environ.get('DB_HOST')
  #   db_port = os.environ.get('DB_PORT')
  #   db_name = os.environ.get('DB_NAME')
-    db_user = os.environ.get('master')
-    db_password = os.environ.get('esfmVSWBp3qV7j6Vjzn1KQKeDKuhqu46')
-    db_host = os.environ.get('aurora-db-postgres-demo.cluster-chfxmjufjx0y.us-east-1.rds.amazonaws.com')
-    db_port = os.environ.get('5432')
-    db_name = os.environ.get('demo')
+    db_user = 'master'
+    db_password = 'esfmVSWBp3qV7j6Vjzn1KQKeDKuhqu46'
+    db_host = 'aurora-db-postgres-demo.cluster-chfxmjufjx0y.us-east-1.rds.amazonaws.com'
+    db_port = '5432'
+    db_name = 'demo'
 
     try:
         connection = psycopg2.connect(
