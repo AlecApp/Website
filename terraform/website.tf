@@ -78,7 +78,7 @@ resource "aws_eip" "website_eip" {
 # Create EC2 instance to host the Dockerized application
 module "website_instance" {
   source                        = "cloudposse/ec2-instance/aws"
-  version                       = ">= 0.30.4"
+  version                       = "0.30.4"
   instance_type                 = "t2.micro"
   ami                           = data.aws_ami.amazon_linux_2.image_id
   ami_owner                     = "amazon"
